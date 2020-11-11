@@ -46,7 +46,7 @@ executar multiplos containers Docker
 ```docker-compose -v```
 
 
-### COnfiguração para execução de Docker sem sudo
+### Configuração para execução de Docker sem sudo
 
 #### Criando grupo do Docker
 
@@ -57,6 +57,7 @@ executar multiplos containers Docker
 ```sudo gpasswd -a $USER docker```
 
 Para finalizar faça o Log Out ou Log In.
+
 
 
 
@@ -71,17 +72,78 @@ Navegue até a pasta desejada e realize o download através do comando
 ``wget https://github.com/bitnami/bitnami-docker-cassandra/blob/master/docker-compose-cluster.yml -O docker-compose.yml``
 
 
-#### Executando cluster do cassandra
+
+------
+### Instalando o drive do cassandra para Python 3.6
+
+
+#### Criando um novo ENV
+
+```conda create --name cassandra```
+
+**Obs.** O nome cassandra é o nome escolhido para exemplo, mas pode ser qualquer outro
+
+#### Inicializando ENV
+
+```source activate cassandra```
+
+#### Instalando o driver do cassandra DB
+
+```pip install cassandra-driver```
+
+
+-----
+
+# Execução da Aplicação
+
+
+-----
+
+### Executando cluster do cassandra
 
 ```sudo docker-compose up -d```
 
-* ```up``` executa o YML econtrado na pasta
+* ```up``` executa o YML encontrado na pasta
 * ```-d``` executa o docker compose em background
 
 
 #### Acessando o CQLSH do container 
 
 ```docker exec -it projeto\_cassandra\_1 cqlsh -u cassandra```
+
+senha: cassandra
+
+
+
+
+
+#### Deletando Keyspaces existentes
+
+```DROP KEYSPACE reviews_db;```
+
+
+
+### Inicialização do enviroment conda 
+
+#### Caso não esteja no enviroment:
+
+```source activate cassandra```
+
+#### Definindo arquivo de aplicação Flask
+
+```(cassandra) jayne@jayne-X555LD:~/Documentos/MESTRADO/BD/projeto$ export FLASK_APP=app.py```
+
+#### Executando aplicação Flask
+
+Navegue até o diretório do projeto e execute:
+
+```flask run```
+
+
+#### Listar os conteiners
+
+```docker-compose ps```
+
 
 #### Criando base de dados 
 
@@ -105,42 +167,40 @@ Navegue até a pasta desejada e realize o download através do comando
 
 **Obs.** A senha pre definida econtra-se no docker-compose.yml, sendo: cassandra
 
-### Instalando o drive do cassandra para Python 3.6
+
+####  Verificando Dados  existentes
+
+- Descrição do Cluster
+```DESCRIBE CLUSTER```
+
+- Listar Schemas do Cluster
+```DESCRIBE SCHEMA```
+
+- Listar Keyspaces do Cluster
+```DESCRIBE KEYSPACES```
+
+-  Descrição de um Keyspace específico
+```DESCRIBE KEYSPACE <keyspace_name>```
+
+- Listagem das tabelas
+```DESCRIBE TABLES```
+
+- Listagem das tabelas de um Kespace Específico
+```DESCRIBE TABLE reviews_db.reviews```
 
 
-#### Criando um novo ENV
+## Arquivos
 
-```conda create --name cassandra```
+### Executar o terminal do container
 
-**Obs.** O nome cassandra é o nome escolhido para exemplo, mas pode ser qualquer outro
+```sudo docker exec -it projeto_cassandra_1 /bin/bash```
 
-#### Inicializando ENV
+### Log de eventos
 
-```source activate cassandra```
+Utilizando o cassandra diretamente instalando na máquina (sem a versão container do bitnami)
 
-#### Instalando o driver do cassandra DB
+Os arquivos de log de evento estarão na pasta: /var/lib/cassandra/commitlog
 
-```pip install cassandra-driver```
+porém no nosso caso, os arquivos de logs estão localizados dentro do container na pasta: /bitnami/cassandra/data/commitlog
 
-
------
-
-## Execução da Aplicação
-
-### Inicialização do enviroment conda 
-
-#### Caso não esteja no enviroment:
-
-```source activate cassandra```
-
-#### Definindo arquivo de aplicação Flask
-
-```(cassandra) jayne@jayne-X555LD:~/Documentos/MESTRADO/BD/projeto$ export FLASK_APP=app.py```
-
-#### Executando aplicação Flask
-
-Navegue até o diretório do projeto e execute:
-
-```flask run```
-
-
+### Arquivos SSTable
