@@ -121,6 +121,9 @@ senha: cassandra
 
 ```DROP KEYSPACE reviews_db;```
 
+#### Conferindo
+
+```DESCRIBE KEYSPACES```
 
 
 ### Inicialização do enviroment conda 
@@ -171,21 +174,27 @@ Navegue até o diretório do projeto e execute:
 ####  Verificando Dados  existentes
 
 - Descrição do Cluster
+
 ```DESCRIBE CLUSTER```
 
 - Listar Schemas do Cluster
+
 ```DESCRIBE SCHEMA```
 
 - Listar Keyspaces do Cluster
+
 ```DESCRIBE KEYSPACES```
 
 -  Descrição de um Keyspace específico
+
 ```DESCRIBE KEYSPACE <keyspace_name>```
 
 - Listagem das tabelas
+
 ```DESCRIBE TABLES```
 
 - Listagem das tabelas de um Kespace Específico
+
 ```DESCRIBE TABLE reviews_db.reviews```
 
 
